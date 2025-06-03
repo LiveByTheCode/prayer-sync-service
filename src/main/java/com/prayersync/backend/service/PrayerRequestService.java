@@ -34,7 +34,7 @@ public class PrayerRequestService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public PrayerRequestDto createPrayerRequest(CreatePrayerRequestDto createDto, Long creatorId) {
+    public PrayerRequestDto createPrayerRequest(CreatePrayerRequestDto createDto, String creatorId) {
         User creator = userRepository.findById(creatorId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -57,7 +57,7 @@ public class PrayerRequestService {
         return convertToDto(savedPrayerRequest);
     }
 
-    public PrayerRequestDto getPrayerRequestById(Long id) {
+    public PrayerRequestDto getPrayerRequestById(String id) {
         PrayerRequest prayerRequest = prayerRequestRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prayer request not found"));
         return convertToDto(prayerRequest);
@@ -70,14 +70,14 @@ public class PrayerRequestService {
                 .collect(Collectors.toList());
     }
 
-    public List<PrayerRequestDto> getPrayerRequestsByCreator(Long creatorId) {
+    public List<PrayerRequestDto> getPrayerRequestsByCreator(String creatorId) {
         List<PrayerRequest> prayerRequests = prayerRequestRepository.findActiveByCreator(creatorId);
         return prayerRequests.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
-    public List<PrayerRequestDto> getPrayerRequestsByPrayerList(Long prayerListId) {
+    public List<PrayerRequestDto> getPrayerRequestsByPrayerList(String prayerListId) {
         List<PrayerRequest> prayerRequests = prayerRequestRepository.findByPrayerListId(prayerListId);
         return prayerRequests.stream()
                 .filter(pr -> pr.getStatus() == RequestStatus.ACTIVE)
@@ -85,7 +85,7 @@ public class PrayerRequestService {
                 .collect(Collectors.toList());
     }
 
-    public List<PrayerRequestDto> getPrayerRequestsByChurch(Long churchId) {
+    public List<PrayerRequestDto> getPrayerRequestsByChurch(String churchId) {
         List<PrayerRequest> prayerRequests = prayerRequestRepository.findActiveByChurch(churchId);
         return prayerRequests.stream()
                 .map(this::convertToDto)
@@ -99,11 +99,11 @@ public class PrayerRequestService {
                 .collect(Collectors.toList());
     }
 
-    public List<PrayerRequestDto> getAccessiblePrayerRequests(Long userId) {
+    public List<PrayerRequestDto> getAccessiblePrayerRequests(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
-        Long churchId = user.getChurch() != null ? user.getChurch().getId() : null;
+        String churchId = user.getChurch() != null ? user.getChurch().getId() : null;
         List<PrayerRequest> prayerRequests = prayerRequestRepository.findAccessiblePrayerRequests(userId, churchId);
         
         return prayerRequests.stream()
@@ -133,7 +133,7 @@ public class PrayerRequestService {
                 .collect(Collectors.toList());
     }
 
-    public PrayerRequestDto updatePrayerRequest(Long id, CreatePrayerRequestDto updateDto, Long userId) {
+    public PrayerRequestDto updatePrayerRequest(String id, CreatePrayerRequestDto updateDto, String userId) {
         PrayerRequest prayerRequest = prayerRequestRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prayer request not found"));
 
@@ -159,7 +159,7 @@ public class PrayerRequestService {
         return convertToDto(updatedPrayerRequest);
     }
 
-    public PrayerRequestDto markAsAnswered(Long id, String answeredDescription, Long userId) {
+    public PrayerRequestDto markAsAnswered(String id, String answeredDescription, String userId) {
         PrayerRequest prayerRequest = prayerRequestRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prayer request not found"));
 
@@ -173,7 +173,7 @@ public class PrayerRequestService {
         return convertToDto(updatedPrayerRequest);
     }
 
-    public PrayerRequestDto incrementPrayerCount(Long id) {
+    public PrayerRequestDto incrementPrayerCount(String id) {
         PrayerRequest prayerRequest = prayerRequestRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prayer request not found"));
 
@@ -182,7 +182,7 @@ public class PrayerRequestService {
         return convertToDto(updatedPrayerRequest);
     }
 
-    public void deletePrayerRequest(Long id, Long userId) {
+    public void deletePrayerRequest(String id, String userId) {
         PrayerRequest prayerRequest = prayerRequestRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prayer request not found"));
 
@@ -192,11 +192,11 @@ public class PrayerRequestService {
             throw new RuntimeException("You don't have permission to delete this prayer request");
         }
 
-        prayerRequest.setStatus(RequestStatus.CLOSED);
+        prayerRequest.setStatus(RequestStatus.NO_LONGER_NEEDED);
         prayerRequestRepository.save(prayerRequest);
     }
 
-    private boolean isUserChurchAdmin(Long userId, PrayerRequest prayerRequest) {
+    private boolean isUserChurchAdmin(String userId, PrayerRequest prayerRequest) {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null || !user.getIsChurchAdmin()) {
             return false;

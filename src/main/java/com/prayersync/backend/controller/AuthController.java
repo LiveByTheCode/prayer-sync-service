@@ -16,6 +16,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -47,22 +50,36 @@ public class AuthController {
             
             return ResponseEntity.ok(new AuthResponseDto(jwt, userDto));
         } catch (Exception e) {
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Authentication failed");
+            errorResponse.put("message", "Invalid email or password");
+            
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("Invalid email or password");
+                    .body(errorResponse);
         }
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody UserRegistrationDto registrationRequest) {
         try {
+            System.out.println("Registration request received for email: " + registrationRequest.getEmail());
+            
             if (userService.existsByEmail(registrationRequest.getEmail())) {
+                System.out.println("Email already exists: " + registrationRequest.getEmail());
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Email already exists");
+                errorResponse.put("message", "An account with this email already exists");
+                
                 return ResponseEntity.badRequest()
-                        .body("Email is already taken!");
+                        .body(errorResponse);
             }
 
+            System.out.println("Creating user...");
             UserDto userDto = userService.createUser(registrationRequest);
+            System.out.println("User created with ID: " + userDto.getId());
             
             // Automatically login the user after registration
+            System.out.println("Authenticating user...");
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             registrationRequest.getEmail(),
@@ -70,13 +87,22 @@ public class AuthController {
                     )
             );
 
+            System.out.println("Authentication successful");
             SecurityContextHolder.getContext().setAuthentication(authentication);
             String jwt = tokenProvider.generateToken(authentication);
+            System.out.println("JWT token generated");
             
             return ResponseEntity.ok(new AuthResponseDto(jwt, userDto));
         } catch (Exception e) {
+            e.printStackTrace(); // Add stack trace for debugging
+            
+            // Return JSON error response
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Registration failed");
+            errorResponse.put("message", e.getMessage());
+            
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Error: " + e.getMessage());
+                    .body(errorResponse);
         }
     }
 

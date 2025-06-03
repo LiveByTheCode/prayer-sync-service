@@ -28,7 +28,7 @@ public class ChurchService {
         return convertToDto(savedChurch);
     }
 
-    public ChurchDto getChurchById(Long id) {
+    public ChurchDto getChurchById(String id) {
         Church church = churchRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Church not found"));
         return convertToDto(church);
@@ -55,7 +55,7 @@ public class ChurchService {
                 .collect(Collectors.toList());
     }
 
-    public ChurchDto updateChurch(Long id, CreateChurchDto updateDto) {
+    public ChurchDto updateChurch(String id, CreateChurchDto updateDto) {
         Church church = churchRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Church not found"));
 
@@ -70,7 +70,7 @@ public class ChurchService {
         return convertToDto(updatedChurch);
     }
 
-    public void deleteChurch(Long id) {
+    public void deleteChurch(String id) {
         Church church = churchRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Church not found"));
         churchRepository.delete(church);

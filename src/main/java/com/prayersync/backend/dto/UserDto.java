@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class UserDto {
     
-    private Long id;
+    private String id;
     private String email;
     private String firstName;
     private String lastName;
@@ -15,15 +15,15 @@ public class UserDto {
     private Boolean isChurchAdmin;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long churchId;
+    private String churchId;
     private String churchName;
     private ReminderSettingsDto reminderSettings;
 
     public UserDto() {}
 
-    public UserDto(Long id, String email, String firstName, String lastName, String phone,
+    public UserDto(String id, String email, String firstName, String lastName, String phone,
                    String bio, String profileImageUrl, Boolean isActive, Boolean isChurchAdmin,
-                   LocalDateTime createdAt, LocalDateTime updatedAt, Long churchId,
+                   LocalDateTime createdAt, LocalDateTime updatedAt, String churchId,
                    String churchName, ReminderSettingsDto reminderSettings) {
         this.id = id;
         this.email = email;
@@ -42,11 +42,11 @@ public class UserDto {
     }
 
     // Getters and Setters
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -130,11 +130,11 @@ public class UserDto {
         this.updatedAt = updatedAt;
     }
 
-    public Long getChurchId() {
+    public String getChurchId() {
         return churchId;
     }
 
-    public void setChurchId(Long churchId) {
+    public void setChurchId(String churchId) {
         this.churchId = churchId;
     }
 
@@ -156,5 +156,13 @@ public class UserDto {
 
     public String getFullName() {
         return firstName + " " + lastName;
+    }
+    
+    // Add displayName for Flutter app compatibility
+    public String getDisplayName() {
+        if (lastName != null && !lastName.trim().isEmpty()) {
+            return firstName + " " + lastName;
+        }
+        return firstName;
     }
 }

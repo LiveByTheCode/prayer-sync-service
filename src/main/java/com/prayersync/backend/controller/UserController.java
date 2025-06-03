@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable String id) {
         UserDto userDto = userService.getUserById(id);
         return ResponseEntity.ok(userDto);
     }
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/church/{churchId}")
-    public ResponseEntity<List<UserDto>> getUsersByChurch(@PathVariable Long churchId) {
+    public ResponseEntity<List<UserDto>> getUsersByChurch(@PathVariable String churchId) {
         List<UserDto> users = userService.getUsersByChurch(churchId);
         return ResponseEntity.ok(users);
     }
@@ -60,28 +60,28 @@ public class UserController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('CHURCH_ADMIN')")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable String id, @RequestBody UserDto userDto) {
         UserDto updatedUser = userService.updateUser(id, userDto);
         return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('CHURCH_ADMIN')")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable String id) {
         userService.deleteUser(id);
         return ResponseEntity.ok("User deleted successfully");
     }
 
     @PostMapping("/{id}/promote")
     @PreAuthorize("hasRole('CHURCH_ADMIN')")
-    public ResponseEntity<UserDto> promoteToChurchAdmin(@PathVariable Long id) {
+    public ResponseEntity<UserDto> promoteToChurchAdmin(@PathVariable String id) {
         UserDto updatedUser = userService.promoteToChurchAdmin(id);
         return ResponseEntity.ok(updatedUser);
     }
 
     @PostMapping("/{id}/revoke")
     @PreAuthorize("hasRole('CHURCH_ADMIN')")
-    public ResponseEntity<UserDto> revokeChurchAdmin(@PathVariable Long id) {
+    public ResponseEntity<UserDto> revokeChurchAdmin(@PathVariable String id) {
         UserDto updatedUser = userService.revokeChurchAdmin(id);
         return ResponseEntity.ok(updatedUser);
     }

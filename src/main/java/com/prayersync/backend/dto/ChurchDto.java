@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class ChurchDto {
     
-    private Long id;
+    private String id;
     private String name;
     private String description;
     private String address;
@@ -17,7 +17,7 @@ public class ChurchDto {
 
     public ChurchDto() {}
 
-    public ChurchDto(Long id, String name, String description, String address, String phone,
+    public ChurchDto(String id, String name, String description, String address, String phone,
                      String email, String website, LocalDateTime createdAt, LocalDateTime updatedAt,
                      Integer memberCount) {
         this.id = id;
@@ -33,11 +33,11 @@ public class ChurchDto {
     }
 
     // Getters and Setters
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

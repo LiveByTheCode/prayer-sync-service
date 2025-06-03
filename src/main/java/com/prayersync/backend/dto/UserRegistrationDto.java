@@ -18,7 +18,6 @@ public class UserRegistrationDto {
     @Size(max = 100, message = "First name cannot exceed 100 characters")
     private String firstName;
     
-    @NotBlank(message = "Last name is required")
     @Size(max = 100, message = "Last name cannot exceed 100 characters")
     private String lastName;
     
@@ -30,12 +29,12 @@ public class UserRegistrationDto {
     
     private String profileImageUrl;
     
-    private Long churchId;
+    private String churchId;
 
     public UserRegistrationDto() {}
 
     public UserRegistrationDto(String email, String password, String firstName, String lastName,
-                              String phone, String bio, String profileImageUrl, Long churchId) {
+                              String phone, String bio, String profileImageUrl, String churchId) {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -103,11 +102,11 @@ public class UserRegistrationDto {
         this.profileImageUrl = profileImageUrl;
     }
 
-    public Long getChurchId() {
+    public String getChurchId() {
         return churchId;
     }
 
-    public void setChurchId(Long churchId) {
+    public void setChurchId(String churchId) {
         this.churchId = churchId;
     }
 }

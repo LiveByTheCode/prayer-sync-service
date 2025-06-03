@@ -17,7 +17,7 @@ public class CreatePrayerRequestDto {
     private String description;
     
     @NotNull(message = "Category is required")
-    private RequestCategory category = RequestCategory.PERSONAL;
+    private RequestCategory category = RequestCategory.OTHER;
     
     @NotNull(message = "Priority is required")
     private RequestPriority priority = RequestPriority.MEDIUM;
@@ -27,13 +27,13 @@ public class CreatePrayerRequestDto {
     
     private Boolean isAnonymous = false;
     
-    private Long prayerListId;
+    private String prayerListId;
 
     public CreatePrayerRequestDto() {}
 
     public CreatePrayerRequestDto(String title, String description, RequestCategory category,
                                  RequestPriority priority, PrivacyLevel privacyLevel,
-                                 Boolean isAnonymous, Long prayerListId) {
+                                 Boolean isAnonymous, String prayerListId) {
         this.title = title;
         this.description = description;
         this.category = category;
@@ -92,11 +92,11 @@ public class CreatePrayerRequestDto {
         this.isAnonymous = isAnonymous;
     }
 
-    public Long getPrayerListId() {
+    public String getPrayerListId() {
         return prayerListId;
     }
 
-    public void setPrayerListId(Long prayerListId) {
+    public void setPrayerListId(String prayerListId) {
         this.prayerListId = prayerListId;
     }
 }

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 public class PrayerRequestDto {
     
-    private Long id;
+    private String id;
     private String title;
     private String description;
     private RequestCategory category;
@@ -21,18 +21,18 @@ public class PrayerRequestDto {
     private String answeredDescription;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long creatorId;
+    private String creatorId;
     private String creatorName;
-    private Long prayerListId;
+    private String prayerListId;
     private String prayerListName;
 
     public PrayerRequestDto() {}
 
-    public PrayerRequestDto(Long id, String title, String description, RequestCategory category,
+    public PrayerRequestDto(String id, String title, String description, RequestCategory category,
                            RequestPriority priority, RequestStatus status, PrivacyLevel privacyLevel,
                            Integer prayerCount, Boolean isAnonymous, LocalDateTime answeredAt,
                            String answeredDescription, LocalDateTime createdAt, LocalDateTime updatedAt,
-                           Long creatorId, String creatorName, Long prayerListId, String prayerListName) {
+                           String creatorId, String creatorName, String prayerListId, String prayerListName) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -53,11 +53,11 @@ public class PrayerRequestDto {
     }
 
     // Getters and Setters
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -157,11 +157,11 @@ public class PrayerRequestDto {
         this.updatedAt = updatedAt;
     }
 
-    public Long getCreatorId() {
+    public String getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(Long creatorId) {
+    public void setCreatorId(String creatorId) {
         this.creatorId = creatorId;
     }
 
@@ -173,11 +173,11 @@ public class PrayerRequestDto {
         this.creatorName = creatorName;
     }
 
-    public Long getPrayerListId() {
+    public String getPrayerListId() {
         return prayerListId;
     }
 
-    public void setPrayerListId(Long prayerListId) {
+    public void setPrayerListId(String prayerListId) {
         this.prayerListId = prayerListId;
     }
 

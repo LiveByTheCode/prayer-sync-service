@@ -10,21 +10,21 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
     
     Optional<User> findByEmail(String email);
     
     boolean existsByEmail(String email);
     
-    List<User> findByChurchId(Long churchId);
+    List<User> findByChurchId(String churchId);
     
     List<User> findByIsActiveTrue();
     
     @Query("SELECT u FROM User u WHERE u.church.id = :churchId AND u.isActive = true")
-    List<User> findActiveUsersByChurch(@Param("churchId") Long churchId);
+    List<User> findActiveUsersByChurch(@Param("churchId") String churchId);
     
     @Query("SELECT u FROM User u WHERE u.church.id = :churchId AND u.isChurchAdmin = true")
-    List<User> findChurchAdminsByChurch(@Param("churchId") Long churchId);
+    List<User> findChurchAdminsByChurch(@Param("churchId") String churchId);
     
     @Query("SELECT u FROM User u WHERE LOWER(u.firstName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
            "OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +

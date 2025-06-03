@@ -33,7 +33,7 @@ public class PrayerRequestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PrayerRequestDto> getPrayerRequestById(@PathVariable Long id) {
+    public ResponseEntity<PrayerRequestDto> getPrayerRequestById(@PathVariable String id) {
         PrayerRequestDto prayerRequestDto = prayerRequestService.getPrayerRequestById(id);
         return ResponseEntity.ok(prayerRequestDto);
     }
@@ -52,13 +52,13 @@ public class PrayerRequestController {
     }
 
     @GetMapping("/prayer-list/{prayerListId}")
-    public ResponseEntity<List<PrayerRequestDto>> getPrayerRequestsByPrayerList(@PathVariable Long prayerListId) {
+    public ResponseEntity<List<PrayerRequestDto>> getPrayerRequestsByPrayerList(@PathVariable String prayerListId) {
         List<PrayerRequestDto> prayerRequests = prayerRequestService.getPrayerRequestsByPrayerList(prayerListId);
         return ResponseEntity.ok(prayerRequests);
     }
 
     @GetMapping("/church/{churchId}")
-    public ResponseEntity<List<PrayerRequestDto>> getPrayerRequestsByChurch(@PathVariable Long churchId) {
+    public ResponseEntity<List<PrayerRequestDto>> getPrayerRequestsByChurch(@PathVariable String churchId) {
         List<PrayerRequestDto> prayerRequests = prayerRequestService.getPrayerRequestsByChurch(churchId);
         return ResponseEntity.ok(prayerRequests);
     }
@@ -99,7 +99,7 @@ public class PrayerRequestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PrayerRequestDto> updatePrayerRequest(@PathVariable Long id,
+    public ResponseEntity<PrayerRequestDto> updatePrayerRequest(@PathVariable String id,
                                                                 @Valid @RequestBody CreatePrayerRequestDto updateDto,
                                                                 Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -108,7 +108,7 @@ public class PrayerRequestController {
     }
 
     @PostMapping("/{id}/answered")
-    public ResponseEntity<PrayerRequestDto> markAsAnswered(@PathVariable Long id,
+    public ResponseEntity<PrayerRequestDto> markAsAnswered(@PathVariable String id,
                                                            @RequestBody Map<String, String> request,
                                                            Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -118,13 +118,13 @@ public class PrayerRequestController {
     }
 
     @PostMapping("/{id}/pray")
-    public ResponseEntity<PrayerRequestDto> incrementPrayerCount(@PathVariable Long id) {
+    public ResponseEntity<PrayerRequestDto> incrementPrayerCount(@PathVariable String id) {
         PrayerRequestDto updatedPrayerRequest = prayerRequestService.incrementPrayerCount(id);
         return ResponseEntity.ok(updatedPrayerRequest);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePrayerRequest(@PathVariable Long id, Authentication authentication) {
+    public ResponseEntity<?> deletePrayerRequest(@PathVariable String id, Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         prayerRequestService.deletePrayerRequest(id, userDetails.getId());
         return ResponseEntity.ok("Prayer request deleted successfully");

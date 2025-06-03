@@ -32,7 +32,7 @@ public class PrayerListService {
     @Autowired
     private ModelMapper modelMapper;
 
-    public PrayerListDto createPrayerList(CreatePrayerListDto createDto, Long creatorId) {
+    public PrayerListDto createPrayerList(CreatePrayerListDto createDto, String creatorId) {
         User creator = userRepository.findById(creatorId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -52,7 +52,7 @@ public class PrayerListService {
         return convertToDto(savedPrayerList);
     }
 
-    public PrayerListDto getPrayerListById(Long id) {
+    public PrayerListDto getPrayerListById(String id) {
         PrayerList prayerList = prayerListRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prayer list not found"));
         return convertToDto(prayerList);
@@ -65,14 +65,14 @@ public class PrayerListService {
                 .collect(Collectors.toList());
     }
 
-    public List<PrayerListDto> getPrayerListsByCreator(Long creatorId) {
+    public List<PrayerListDto> getPrayerListsByCreator(String creatorId) {
         List<PrayerList> prayerLists = prayerListRepository.findActiveByCreator(creatorId);
         return prayerLists.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
 
-    public List<PrayerListDto> getPrayerListsByChurch(Long churchId) {
+    public List<PrayerListDto> getPrayerListsByChurch(String churchId) {
         List<PrayerList> prayerLists = prayerListRepository.findActiveByChurch(churchId);
         return prayerLists.stream()
                 .map(this::convertToDto)
@@ -86,11 +86,11 @@ public class PrayerListService {
                 .collect(Collectors.toList());
     }
 
-    public List<PrayerListDto> getAccessiblePrayerLists(Long userId) {
+    public List<PrayerListDto> getAccessiblePrayerLists(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
-        Long churchId = user.getChurch() != null ? user.getChurch().getId() : null;
+        String churchId = user.getChurch() != null ? user.getChurch().getId() : null;
         List<PrayerList> prayerLists = prayerListRepository.findAccessiblePrayerLists(userId, churchId);
         
         return prayerLists.stream()
@@ -105,7 +105,7 @@ public class PrayerListService {
                 .collect(Collectors.toList());
     }
 
-    public PrayerListDto updatePrayerList(Long id, CreatePrayerListDto updateDto, Long userId) {
+    public PrayerListDto updatePrayerList(String id, CreatePrayerListDto updateDto, String userId) {
         PrayerList prayerList = prayerListRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prayer list not found"));
 
@@ -129,7 +129,7 @@ public class PrayerListService {
         return convertToDto(updatedPrayerList);
     }
 
-    public void deletePrayerList(Long id, Long userId) {
+    public void deletePrayerList(String id, String userId) {
         PrayerList prayerList = prayerListRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Prayer list not found"));
 
@@ -143,7 +143,7 @@ public class PrayerListService {
         prayerListRepository.save(prayerList);
     }
 
-    private boolean isUserChurchAdmin(Long userId, Long churchId) {
+    private boolean isUserChurchAdmin(String userId, String churchId) {
         User user = userRepository.findById(userId).orElse(null);
         return user != null && user.getIsChurchAdmin() && 
                user.getChurch() != null && user.getChurch().getId().equals(churchId);

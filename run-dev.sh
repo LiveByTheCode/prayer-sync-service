@@ -9,6 +9,6 @@ else
     echo "Run ./setup-env.sh to create one."
 fi
 
-# Run the Spring Boot application with local profile
+# Run the Spring Boot application (uses default profile with env vars)
 echo "Starting Prayer Sync Backend..."
-./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+./mvnw spring-boot:run

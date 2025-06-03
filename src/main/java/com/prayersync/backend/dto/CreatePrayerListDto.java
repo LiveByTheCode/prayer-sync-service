@@ -17,11 +17,11 @@ public class CreatePrayerListDto {
     @NotNull(message = "Privacy level is required")
     private PrivacyLevel privacyLevel = PrivacyLevel.PUBLIC;
     
-    private Long churchId;
+    private String churchId;
 
     public CreatePrayerListDto() {}
 
-    public CreatePrayerListDto(String name, String description, PrivacyLevel privacyLevel, Long churchId) {
+    public CreatePrayerListDto(String name, String description, PrivacyLevel privacyLevel, String churchId) {
         this.name = name;
         this.description = description;
         this.privacyLevel = privacyLevel;
@@ -53,11 +53,11 @@ public class CreatePrayerListDto {
         this.privacyLevel = privacyLevel;
     }
 
-    public Long getChurchId() {
+    public String getChurchId() {
         return churchId;
     }
 
-    public void setChurchId(Long churchId) {
+    public void setChurchId(String churchId) {
         this.churchId = churchId;
     }
 }

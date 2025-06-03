@@ -6,14 +6,14 @@ import com.prayersync.backend.enums.RequestStatus;
 import com.prayersync.backend.enums.PrivacyLevel;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "prayer_requests")
 public class PrayerRequest {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     
     @Column(name = "title", nullable = false, length = 255)
     private String title;
@@ -23,7 +23,7 @@ public class PrayerRequest {
     
     @Enumerated(EnumType.STRING)
     @Column(name = "category")
-    private RequestCategory category = RequestCategory.PERSONAL;
+    private RequestCategory category = RequestCategory.OTHER;
     
     @Enumerated(EnumType.STRING)
     @Column(name = "priority", nullable = false)
@@ -87,6 +87,9 @@ public class PrayerRequest {
 
     @PrePersist
     public void prePersist() {
+        if (this.id == null) {
+            this.id = UUID.randomUUID().toString();
+        }
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -102,11 +105,11 @@ public class PrayerRequest {
     }
 
     // Getters and Setters
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

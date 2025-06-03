@@ -5,24 +5,24 @@ import java.time.LocalDateTime;
 
 public class PrayerListDto {
     
-    private Long id;
+    private String id;
     private String name;
     private String description;
     private PrivacyLevel privacyLevel;
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Long creatorId;
+    private String creatorId;
     private String creatorName;
-    private Long churchId;
+    private String churchId;
     private String churchName;
     private Integer requestCount;
 
     public PrayerListDto() {}
 
-    public PrayerListDto(Long id, String name, String description, PrivacyLevel privacyLevel,
+    public PrayerListDto(String id, String name, String description, PrivacyLevel privacyLevel,
                         Boolean isActive, LocalDateTime createdAt, LocalDateTime updatedAt,
-                        Long creatorId, String creatorName, Long churchId, String churchName,
+                        String creatorId, String creatorName, String churchId, String churchName,
                         Integer requestCount) {
         this.id = id;
         this.name = name;
@@ -39,11 +39,11 @@ public class PrayerListDto {
     }
 
     // Getters and Setters
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -95,11 +95,11 @@ public class PrayerListDto {
         this.updatedAt = updatedAt;
     }
 
-    public Long getCreatorId() {
+    public String getCreatorId() {
         return creatorId;
     }
 
-    public void setCreatorId(Long creatorId) {
+    public void setCreatorId(String creatorId) {
         this.creatorId = creatorId;
     }
 
@@ -111,11 +111,11 @@ public class PrayerListDto {
         this.creatorName = creatorName;
     }
 
-    public Long getChurchId() {
+    public String getChurchId() {
         return churchId;
     }
 
-    public void setChurchId(Long churchId) {
+    public void setChurchId(String churchId) {
         this.churchId = churchId;
     }
 

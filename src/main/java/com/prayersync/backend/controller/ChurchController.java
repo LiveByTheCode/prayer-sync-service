@@ -28,7 +28,7 @@ public class ChurchController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ChurchDto> getChurchById(@PathVariable Long id) {
+    public ResponseEntity<ChurchDto> getChurchById(@PathVariable String id) {
         ChurchDto churchDto = churchService.getChurchById(id);
         return ResponseEntity.ok(churchDto);
     }
@@ -53,7 +53,7 @@ public class ChurchController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('CHURCH_ADMIN')")
-    public ResponseEntity<ChurchDto> updateChurch(@PathVariable Long id, 
+    public ResponseEntity<ChurchDto> updateChurch(@PathVariable String id, 
                                                   @Valid @RequestBody CreateChurchDto updateDto) {
         ChurchDto updatedChurch = churchService.updateChurch(id, updateDto);
         return ResponseEntity.ok(updatedChurch);
@@ -61,7 +61,7 @@ public class ChurchController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('CHURCH_ADMIN')")
-    public ResponseEntity<?> deleteChurch(@PathVariable Long id) {
+    public ResponseEntity<?> deleteChurch(@PathVariable String id) {
         churchService.deleteChurch(id);
         return ResponseEntity.ok("Church deleted successfully");
     }

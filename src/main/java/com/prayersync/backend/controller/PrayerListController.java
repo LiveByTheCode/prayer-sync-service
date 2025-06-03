@@ -30,7 +30,7 @@ public class PrayerListController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PrayerListDto> getPrayerListById(@PathVariable Long id) {
+    public ResponseEntity<PrayerListDto> getPrayerListById(@PathVariable String id) {
         PrayerListDto prayerListDto = prayerListService.getPrayerListById(id);
         return ResponseEntity.ok(prayerListDto);
     }
@@ -49,7 +49,7 @@ public class PrayerListController {
     }
 
     @GetMapping("/church/{churchId}")
-    public ResponseEntity<List<PrayerListDto>> getPrayerListsByChurch(@PathVariable Long churchId) {
+    public ResponseEntity<List<PrayerListDto>> getPrayerListsByChurch(@PathVariable String churchId) {
         List<PrayerListDto> prayerLists = prayerListService.getPrayerListsByChurch(churchId);
         return ResponseEntity.ok(prayerLists);
     }
@@ -74,7 +74,7 @@ public class PrayerListController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PrayerListDto> updatePrayerList(@PathVariable Long id,
+    public ResponseEntity<PrayerListDto> updatePrayerList(@PathVariable String id,
                                                           @Valid @RequestBody CreatePrayerListDto updateDto,
                                                           Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -83,7 +83,7 @@ public class PrayerListController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePrayerList(@PathVariable Long id, Authentication authentication) {
+    public ResponseEntity<?> deletePrayerList(@PathVariable String id, Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         prayerListService.deletePrayerList(id, userDetails.getId());
         return ResponseEntity.ok("Prayer list deleted successfully");

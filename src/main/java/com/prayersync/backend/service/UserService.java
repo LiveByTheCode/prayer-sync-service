@@ -56,7 +56,7 @@ public class UserService {
         return convertToDto(savedUser);
     }
 
-    public UserDto getUserById(Long id) {
+    public UserDto getUserById(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return convertToDto(user);
@@ -75,7 +75,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public List<UserDto> getUsersByChurch(Long churchId) {
+    public List<UserDto> getUsersByChurch(String churchId) {
         List<User> users = userRepository.findByChurchId(churchId);
         return users.stream()
                 .map(this::convertToDto)
@@ -89,7 +89,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDto updateUser(Long id, UserDto userDto) {
+    public UserDto updateUser(String id, UserDto userDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -109,7 +109,7 @@ public class UserService {
         return convertToDto(updatedUser);
     }
 
-    public void deleteUser(Long id) {
+    public void deleteUser(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
@@ -117,7 +117,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserDto promoteToChurchAdmin(Long userId) {
+    public UserDto promoteToChurchAdmin(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         
@@ -126,7 +126,7 @@ public class UserService {
         return convertToDto(updatedUser);
     }
 
-    public UserDto revokeChurchAdmin(Long userId) {
+    public UserDto revokeChurchAdmin(String userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         

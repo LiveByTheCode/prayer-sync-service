@@ -14,11 +14,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public interface PrayerRequestRepository extends JpaRepository<PrayerRequest, Long> {
+public interface PrayerRequestRepository extends JpaRepository<PrayerRequest, String> {
     
-    List<PrayerRequest> findByCreatorId(Long creatorId);
+    List<PrayerRequest> findByCreatorId(String creatorId);
     
-    List<PrayerRequest> findByPrayerListId(Long prayerListId);
+    List<PrayerRequest> findByPrayerListId(String prayerListId);
     
     List<PrayerRequest> findByStatus(RequestStatus status);
     
@@ -33,11 +33,11 @@ public interface PrayerRequestRepository extends JpaRepository<PrayerRequest, Lo
     
     @Query("SELECT pr FROM PrayerRequest pr WHERE pr.prayerList.church.id = :churchId AND pr.status = 'ACTIVE' " +
            "ORDER BY pr.priority DESC, pr.createdAt DESC")
-    List<PrayerRequest> findActiveByChurch(@Param("churchId") Long churchId);
+    List<PrayerRequest> findActiveByChurch(@Param("churchId") String churchId);
     
     @Query("SELECT pr FROM PrayerRequest pr WHERE pr.creator.id = :creatorId AND pr.status = 'ACTIVE' " +
            "ORDER BY pr.priority DESC, pr.createdAt DESC")
-    List<PrayerRequest> findActiveByCreator(@Param("creatorId") Long creatorId);
+    List<PrayerRequest> findActiveByCreator(@Param("creatorId") String creatorId);
     
     @Query("SELECT pr FROM PrayerRequest pr WHERE pr.privacyLevel = 'PUBLIC' AND pr.status = 'ACTIVE' " +
            "ORDER BY pr.priority DESC, pr.createdAt DESC")
@@ -45,10 +45,10 @@ public interface PrayerRequestRepository extends JpaRepository<PrayerRequest, Lo
     
     @Query("SELECT pr FROM PrayerRequest pr WHERE " +
            "(pr.privacyLevel = 'PUBLIC' OR " +
-           "(pr.privacyLevel = 'CHURCH_ONLY' AND pr.prayerList.church.id = :churchId) OR " +
+           "(pr.privacyLevel = 'CHURCH' AND pr.prayerList.church.id = :churchId) OR " +
            "pr.creator.id = :userId) AND pr.status = 'ACTIVE' " +
            "ORDER BY pr.priority DESC, pr.createdAt DESC")
-    List<PrayerRequest> findAccessiblePrayerRequests(@Param("userId") Long userId, @Param("churchId") Long churchId);
+    List<PrayerRequest> findAccessiblePrayerRequests(@Param("userId") String userId, @Param("churchId") String churchId);
     
     @Query("SELECT pr FROM PrayerRequest pr WHERE LOWER(pr.title) LIKE LOWER(CONCAT('%', :searchTerm, '%')) " +
            "OR LOWER(pr.description) LIKE LOWER(CONCAT('%', :searchTerm, '%'))")
@@ -58,13 +58,13 @@ public interface PrayerRequestRepository extends JpaRepository<PrayerRequest, Lo
            "ORDER BY pr.answeredAt DESC")
     List<PrayerRequest> findAnsweredSince(@Param("fromDate") LocalDateTime fromDate);
     
-    @Query("SELECT pr FROM PrayerRequest pr WHERE pr.priority = 'URGENT' AND pr.status = 'ACTIVE' " +
+    @Query("SELECT pr FROM PrayerRequest pr WHERE pr.priority = 'HIGH' AND pr.status = 'ACTIVE' " +
            "ORDER BY pr.createdAt DESC")
     List<PrayerRequest> findUrgentPrayerRequests();
     
     @Query("SELECT COUNT(pr) FROM PrayerRequest pr WHERE pr.creator.id = :userId")
-    Long countByCreator(@Param("userId") Long userId);
+    Long countByCreator(@Param("userId") String userId);
     
     @Query("SELECT COUNT(pr) FROM PrayerRequest pr WHERE pr.prayerList.church.id = :churchId")
-    Long countByChurch(@Param("churchId") Long churchId);
+    Long countByChurch(@Param("churchId") String churchId);
 }

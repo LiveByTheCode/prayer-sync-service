@@ -11,25 +11,8 @@ else
     echo "✓ .env file already exists."
 fi
 
-# Check if application-local.properties exists
-if [ ! -f src/main/resources/application-local.properties ]; then
-    echo "Creating application-local.properties..."
-    
-    # Create the file with basic template
-    cat > src/main/resources/application-local.properties << 'EOF'
-# Local development configuration
-# This file is ignored by git - add your local settings here
-
-# You can override any property from application.properties
-# For example:
-# spring.datasource.url=jdbc:postgresql://localhost:5432/prayersync_dev
-# spring.jpa.show-sql=true
-EOF
-    
-    echo "✓ application-local.properties created."
-else
-    echo "✓ application-local.properties already exists."
-fi
+# Note: application-local.properties is no longer needed
+# All configuration is done through environment variables
 
 echo ""
 echo "Setup complete! Next steps:"

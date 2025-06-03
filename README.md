@@ -32,24 +32,26 @@ This project uses environment variables for sensitive configuration. Follow thes
 
 ### Running the Application
 
-#### Option 1: Using IDE with .env support
+#### Recommended: Use the provided script
+```bash
+./run-dev.sh
+```
+This script automatically loads environment variables from `.env` and starts the application.
+
+#### Alternative methods:
+
+**Option 1: Using IDE with .env support**
 Most modern IDEs (IntelliJ IDEA, VS Code) can read `.env` files automatically.
 
-#### Option 2: Export environment variables manually
+**Option 2: Export environment variables manually**
 ```bash
 export $(cat .env | xargs)
 ./mvnw spring-boot:run
 ```
 
-#### Option 3: Using Spring profiles
-```bash
-./mvnw spring-boot:run -Dspring.profiles.active=local
-```
+### Configuration
 
-### Development Profiles
-
-- **default**: Uses environment variables with fallback values
-- **local**: Uses `application-local.properties` (not tracked in git)
+All configuration is done through environment variables defined in the `.env` file. The application uses the default Spring profile which reads these environment variables.
 
 ### Security Notes
 
