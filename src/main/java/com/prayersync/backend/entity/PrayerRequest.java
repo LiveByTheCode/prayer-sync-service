@@ -55,6 +55,16 @@ public class PrayerRequest {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+    // Sync metadata
+    @Column(name = "sync_id")
+    private String syncId;
+    
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
+    
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id", nullable = false)
     private User creator;
@@ -223,5 +233,49 @@ public class PrayerRequest {
 
     public void setPrayerList(PrayerList prayerList) {
         this.prayerList = prayerList;
+    }
+    
+    // Sync metadata getters and setters
+    public String getSyncId() {
+        return syncId;
+    }
+    
+    public void setSyncId(String syncId) {
+        this.syncId = syncId;
+    }
+    
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+    
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+    
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+    
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+    
+    public void markAsDeleted() {
+        this.isDeleted = true;
+        this.deletedAt = LocalDateTime.now();
+    }
+    
+    // Convenience methods for creator ID
+    public String getCreatorId() {
+        return creator != null ? creator.getId() : null;
+    }
+    
+    public void setCreatorId(String creatorId) {
+        if (creatorId != null && !creatorId.isEmpty()) {
+            // Create a minimal User object for the foreign key
+            User user = new User();
+            user.setId(creatorId);
+            this.creator = user;
+        }
     }
 }

@@ -16,9 +16,9 @@ import java.util.List;
 @Repository
 public interface PrayerRequestRepository extends JpaRepository<PrayerRequest, String> {
     
-    List<PrayerRequest> findByCreatorId(String creatorId);
+    List<PrayerRequest> findByCreator_Id(String creatorId);
     
-    List<PrayerRequest> findByPrayerListId(String prayerListId);
+    List<PrayerRequest> findByPrayerList_Id(String prayerListId);
     
     List<PrayerRequest> findByStatus(RequestStatus status);
     
@@ -67,4 +67,16 @@ public interface PrayerRequestRepository extends JpaRepository<PrayerRequest, St
     
     @Query("SELECT COUNT(pr) FROM PrayerRequest pr WHERE pr.prayerList.church.id = :churchId")
     Long countByChurch(@Param("churchId") String churchId);
+    
+    // Sync-related queries
+    @Query("SELECT pr FROM PrayerRequest pr WHERE pr.creator.id = :userId AND pr.updatedAt > :lastSyncTime AND (pr.isDeleted = false OR pr.isDeleted IS NULL) ORDER BY pr.updatedAt ASC")
+    List<PrayerRequest> findUpdatedSinceLastSync(@Param("userId") String userId, @Param("lastSyncTime") LocalDateTime lastSyncTime);
+    
+    @Query("SELECT pr FROM PrayerRequest pr WHERE pr.creator.id = :userId AND pr.isDeleted = true ORDER BY pr.deletedAt DESC")
+    List<PrayerRequest> findDeletedByUser(@Param("userId") String userId);
+    
+    List<PrayerRequest> findBySyncId(String syncId);
+    
+    @Query("SELECT pr FROM PrayerRequest pr WHERE pr.creator.id = :userId AND (pr.isDeleted = false OR pr.isDeleted IS NULL) ORDER BY pr.updatedAt DESC")
+    List<PrayerRequest> findActiveByUser(@Param("userId") String userId);
 }

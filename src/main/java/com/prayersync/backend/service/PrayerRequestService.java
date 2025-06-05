@@ -78,7 +78,7 @@ public class PrayerRequestService {
     }
 
     public List<PrayerRequestDto> getPrayerRequestsByPrayerList(String prayerListId) {
-        List<PrayerRequest> prayerRequests = prayerRequestRepository.findByPrayerListId(prayerListId);
+        List<PrayerRequest> prayerRequests = prayerRequestRepository.findByPrayerList_Id(prayerListId);
         return prayerRequests.stream()
                 .filter(pr -> pr.getStatus() == RequestStatus.ACTIVE)
                 .map(this::convertToDto)

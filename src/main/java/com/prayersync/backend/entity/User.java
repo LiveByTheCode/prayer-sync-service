@@ -46,6 +46,10 @@ public class User {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
     
+    // Sync metadata
+    @Column(name = "last_sync_at")
+    private LocalDateTime lastSyncAt;
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "church_id")
     private Church church;
@@ -215,5 +219,18 @@ public class User {
 
     public String getFullName() {
         return firstName + " " + lastName;
+    }
+    
+    // Sync metadata getters and setters
+    public LocalDateTime getLastSyncAt() {
+        return lastSyncAt;
+    }
+    
+    public void setLastSyncAt(LocalDateTime lastSyncAt) {
+        this.lastSyncAt = lastSyncAt;
+    }
+    
+    public void updateLastSyncTime() {
+        this.lastSyncAt = LocalDateTime.now();
     }
 }
